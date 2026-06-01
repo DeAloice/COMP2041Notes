@@ -109,8 +109,8 @@ int main(int argc, char *argv[]) {
 
 Tip: Add in `` so don't run shell command before union |
 ```bash
-$ grep -E -c 'Eliza|Lizzie` pride_and_prejudice.txt
-$ grep --colour=auto -E -c 'Eliza|Lizzie` pride_and_prejudice.txt
+$ grep -E -c 'Eliza|Lizzie' pride_and_prejudice.txt
+$ grep --colour=auto -E -c 'Eliza|Lizzie' pride_and_prejudice.txt
 ```
 
 In Python:
