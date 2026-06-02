@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
 ![GrepOption1](images/GrepOptions1.png)
 ![GrepOption2](images/GrepOption2.png)
 
-Tip: Add in `` so don't run shell command before union |
+Tip: Add in '' (Use double quotes instead "") so don't run shell command before union |
 ```bash
 $ grep -E -c 'Eliza|Lizzie' pride_and_prejudice.txt
 $ grep --colour=auto -E -c 'Eliza|Lizzie' pride_and_prejudice.txt
@@ -160,6 +160,11 @@ if __name__ == '__main__':
 
 ### **Repetition**
 ![Repetition](images/RegExpRep.png)
+
+### **Tips**
+- To get lines with nothing: ^$
+- Whitespace, including tab characters: \s or ([ \t])
+- 
 
 Websites:
 [Regex101](https://regex101.com)
