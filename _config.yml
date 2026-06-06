@@ -30,6 +30,13 @@ github_username:  DeAloice
 theme: minima
 plugins:
   - jekyll-feed
+include:
+  - "*.png"
+  - "*.jpg"
+  - "*.jpeg"
+  - "*.gif"
+  - "*.pdf"
+  - "*.txt"
 
 # Exclude from processing.
 # The following items will not be processed, by default.
