@@ -107,6 +107,12 @@ Tip: Add in '' (Use double quotes instead "") so don't run shell command before 
 ```shell
 $ grep -E -c 'Eliza|Lizzie' pride_and_prejudice.txt
 $ grep --colour=auto -E -c 'Eliza|Lizzie' pride_and_prejudice.txt
+
+# can use (?1)? which causes a mirror/recursive effect 
+$ grep -P '^B*(A(?1)?B)$' input.txt
+AAABBB
+AB
+AABB
 ```
 
 In Python:
