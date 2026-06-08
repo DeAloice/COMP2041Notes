@@ -504,6 +504,18 @@ Goofy 1952 Disney
 Mickey Mouse 1937 Disney
 Nemo 2003 Pixar
 Road Runner 1949
+
+# -e option: fills in missing field with '', needs o option included to work
+# -o auto: structure
+$ join -a1 -a2 -e '--' -t'|' -1 1 -2 1 COMP1511.txt -o auto COMP2041.txt
+4200549|--|92
+4201259|--|91
+4203704|--|48
+4207416|76|56
+4209182|96|70
+4209669|--|71
+4212240|59|--
+4213591|--|49
 ```
 
 <hr style="height: 3px; background-color: black; border: none;"><br>
