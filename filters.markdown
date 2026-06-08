@@ -307,6 +307,9 @@ if __name__ == '__main__':
     main()
 ```
 
+Tips: 
+- when combining options and sort commands can do `-k3,3.5r`
+
 <hr style="height: 3px; background-color: black; border: none;"><br>
 ## **`uniq`: remove or count duplicates**
 - remove all but one copy of **adjacent** identical lines
