@@ -469,6 +469,7 @@ $ find /home/andrewt -type f -mtime +364 -ok rm {} \;
 <hr style="height: 3px; background-color: black; border: none;"><br>
 ## **`join`: database operator**
 - merges 2 files using vals in field in each file as common key
+- needs to be sorted in said field
 
 Useful Options:
 ![joinOptions](images/joinOptions.png)
