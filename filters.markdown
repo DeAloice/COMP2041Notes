@@ -234,6 +234,8 @@ $ tr a-zA-Z b-zB-ZA < pride_and_prejudice.txt | more
 Useful Options:
 ![trOptions](images/trOptions.png)
 
+- -s: squeezes adjacent occurring characters down to 1 `tr "a" "b"` squeezes `aaaaa` to `b`
+
 <hr style="height: 3px; background-color: black; border: none;"><br>
 ## **`head/tail`: select first/last lines**
 - head: prints first `n` (default 10) lines of input
@@ -314,7 +316,11 @@ if __name__ == '__main__':
 ```
 
 Tips: 
-- when combining options and sort commands can do `-k3,3.5r`
+- can specify stopping at certain characters using `-k1,5,1.8`
+- also when stating fields, need to specify start and stop
+```shell
+$ sort -t'|' -k1.5,1.8 -k2,2nr enrollments.txt
+```
 
 <hr style="height: 3px; background-color: black; border: none;"><br>
 ## **`uniq`: remove or count duplicates**
@@ -401,6 +407,7 @@ $ sed -E 's/([^:]*):([^:]*):(.*)$/\2:\1:\3/'
 
 ### **Useful Options:**
 ![sedOptions](images/sedOptions.png)
+- option -g: global- all occurrences in single line are replaced
 
 ### **Editing Commands:**
 ![sedEditComm](images/sedEditingComm.png)
