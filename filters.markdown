@@ -316,7 +316,7 @@ if __name__ == '__main__':
 ```
 
 Tips: 
-- can specify stopping at certain characters using `-k1,5,1.8`
+- can specify stopping at certain characters using `-k1.5,1.8`
 - also when stating fields, need to specify start and stop
 ```shell
 $ sort -t'|' -k1.5,1.8 -k2,2nr enrollments.txt
