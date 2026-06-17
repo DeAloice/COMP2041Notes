@@ -350,6 +350,12 @@ else
 else-commands
 fi
 ```
+- in if condition we only care about the return value, `test` can return 0 or 1, commands like `grep` can return 0 or 1 if successful'
+- checking whether a variable is an integer e.g 
+```shell
+# sending stderr to bin (i.e /dev/null)
+if ! [$integer -eq $integer] 2 > /dev/null; then
+```
 
 ```bash
 #!/bin/dash
@@ -542,3 +548,134 @@ mkdir -p tmp && chmod 755 tmp
 ```
 
 <hr style="height: 3px; background-color: black; border: none;"><br>
+
+## **`read`: shell builtin - Shell Input**
+- reads line of input into variables
+
+```shell
+#!/bin/dash
+
+echo -n "Do you like learning Shell? "
+
+read response
+
+response_char1=$(echo "$response" | tr "A-Z" "a-z" | cut -c1)
+
+if [ "$response_char1" = y ]; then
+    echo "Yay"
+elif [ "$response_char1" = n]; then 
+    echo ":("
+else 
+    echo "???"
+fi
+```
+
+<hr style="height: 3px; background-color: black; border: none;"><br>
+
+## **`case` statements - syntax**
+```shell
+case word in
+pattern1)
+    commands1
+    ;;
+pattern2)
+    commands2
+    ;;
+patternn)
+    commandsN
+esac
+
+
+#!/bin/dash
+
+echo -n "Do you like learning Shell? "
+
+read response
+
+response_char1=$(echo "$response" | tr "A-Z" "a-z" | cut -c1)
+
+case "$response_char1" in 
+y)
+    echo "Yay"
+    ;;
+n) 
+    echo ":("
+    ;;
+*) 
+    echo "???"
+esac
+```
+
+<hr style="height: 3px; background-color: black; border: none;"><br>
+
+## **shell functions**
+- more so just named blocks of code
+
+```shell
+#!/bin/dash
+
+favourite() {
+    local name command
+    name=$1
+    command=$2
+    echo "My name is $name, my favourite command is $command" 
+}
+
+favourite Andrew rm
+favourite Rosemary jq
+favourite Dylan rsync
+```
+
+- create_1001_file_C_program
+```shell
+create_file() {
+    local n
+    n=$1
+
+    # create file$n.c containing function f$n
+    printf "int f%d(void) {\n\treturn %d;\n}\n" "$n" "$n" >"file$n.c"
+
+    # add declation of function f$n to i.h
+    echo "    int f$n(void);" >>i.h
+
+    # add call to function f$n to main.c
+    echo "    v += f$n();" >>main.c
+
+    # add file$n.c to list of files to compile
+    c_files="$c_files file$n.c"
+}
+
+start_main() {
+    cat >main.c <<eof
+#include <stdio.h>
+#include "i.h"
+
+int main(void) {
+    int v = 0 ;
+eof
+
+    c_files="main.c"
+}
+
+finish_main() {
+    cat >>main.c <<eof
+    printf("%d\n", v);
+    return 0;
+}
+eof
+}
+
+start_main
+
+i=0
+while test $i -lt 1000
+do
+    create_file $i
+    i=$((i + 1))
+done
+
+finish_main
+
+time clang -o thousand_file_program $c_files &&
+./thousand_file_program
+```
