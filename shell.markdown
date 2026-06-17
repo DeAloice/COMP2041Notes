@@ -680,3 +680,37 @@ finish_main
 time clang -o thousand_file_program $c_files &&
 ./thousand_file_program
 ```
+
+<hr style="height: 3px; background-color: black; border: none;"><br>
+
+## **`diff`**
+```shell
+#!/bin/dash
+
+# check if any set of C programs are the same
+# return 0 if two files contain the same code
+
+same() {
+    local file1 file2
+    file1="$1"
+    file2="$2"
+
+    diff -wBi "$file1" "$file2" >/dev/null
+    return $? 
+}
+
+for file1 in "$@"
+do
+    for file1 in "$@"
+    do
+        test "$file1" = "$file2" &&
+            break
+        same "$file1" "$file2" &&
+            echo "$file1" "$file2" "contain the same code"
+    done
+done
+```
+
+- to get unique, can use `$$` at end but hard to access, can use $(`mktemp`)
+- execute something on exit:
+    `trap 'rm $TMP1 $TMP2' EXIT`
