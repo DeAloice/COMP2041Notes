@@ -711,6 +711,86 @@ do
 done
 ```
 
-- to get unique, can use `$$` at end but hard to access, can use $(`mktemp`)
-- execute something on exit:
+<hr style="height: 3px; background-color: black; border: none;"><br>
+
+## **Temp Files**
+- to get unique, can use `$$` at end but hard to access, can use `$(mktemp)`
+- execute something on exit for cleanup:
     `trap 'rm $TMP1 $TMP2' EXIT`
+
+```shell
+#!/bin/dash
+
+temporary_dir=$(mktemp -d)
+# shellcheck disable=SC2064
+trap "rm -r $temporary_dir" EXIT
+
+cd "$temporary_dir" || exit 1
+
+## xargs passes seq 1 1000 as args to command following after xargs
+## touch creates file if doesn't exist 
+# seq 1 1000|xargs touch
+
+echo "$temporary_dir"
+
+echo -n "ready to rm?"
+
+read -r answer
+```
+
+<hr style="height: 3px; background-color: black; border: none;"><br>
+
+## **Concurrency**
+
+```shell
+#!/bin/dash
+
+(sleep 1;echo hello) &
+
+for i in $(seq 1 20)
+do
+   echo $i 
+done
+```
+
+- `wait`: waits for all processes to finish to continue
+
+```shell
+#!/bin/dash
+
+n_process="$(getconf _NPROCESSORS_ONLN)"
+
+ls *.c|xargs --max-procs="$n_process" -n 1 gcc -c
+gcc *.o -o binary
+```
+
+```shell
+#!/bin/dash
+
+parallel gcc -c '()' ::: *.c
+gcc *.o -o binary
+```
+
+```shell
+#hashes
+sha2hash() {
+    sed '
+        s/\/\/.*//
+        s/"[^"]"/s/g
+        s/[a-zA-Z_][a-zA-Z0-9_]*/v/g
+        ' $1|
+    sort|
+    sha256sum
+}
+
+for file in "$@"
+do
+    echo "$(sha2hash $file) $file"
+done|
+sort|
+uniq -w32 -d --all-repeated=separate
+
+```
+
+<hr style="height: 3px; background-color: black; border: none;"><br>
+
