@@ -164,4 +164,158 @@ print(s)
 <hr style="height: 3px; background-color: black; border: none;"><br>
 
 # [**1. Python More**](downloads/python_more.pdf)
-more
+
+
+```py
+#!/usr/bin/env python3
+
+import sys
+
+i = 1
+while i < len(sys.argv):
+    if i > 1:
+        print(' ', end='')
+    print(sys.argv[i], end='')
+    i += 1
+print()
+
+#################
+# using for range 
+#################
+#!/usr/bin/env python3
+
+import sys
+
+for i in range(1, len(sys.argv)):
+    if i > 1:
+        print(' ', end='')
+    print(sys.argv[i], end='')
+
+print()
+
+
+#################
+print(' '.join(sys.argv[1:]))
+
+# takes a list, unpacks args into print
+print(*sys.argv[1:])
+
+```
+
+```py
+#!/usr/bin/env python3
+
+import sys
+
+total = 0
+
+for arg in sys.argv[1:]:
+    try:
+        total += int(arg)
+    except ValueError:
+        # print(f"error: '{arg}' is not an integer", file=sys.stderr)
+        # sys.exit(1)
+        sys.exit(f"error: '{arg}' is not an integer")
+
+print(total)
+```
+
+```py
+#!/usr/bin/env python3
+
+import sys
+
+line_count = 0
+for line in sys.stdin:
+    line_count +=1
+
+print(line_count)
+
+################ OR
+#!/usr/bin/env python3
+
+import sys
+
+line_count = sys.stdin.readlines()
+line_count = len(lines)
+print(line_count)
+```
+
+```py
+#!/usr/bin/env python3
+# cp command
+
+import sys
+
+if len (sys.argv) != 3:
+    sys.exit(f"Usage: {sys.argv[0]} <from-file> <to-file>")
+
+in_file = sys.argv[1]
+out_file = sys.argv[2]
+
+if in_file == out_file:
+    sys.exit("the same file")
+
+try:
+    # subprocess.run(['cp', in_file, out_file])
+    with open(in_file, "r") as f:
+        with open(out_file, "w") as g:
+            lines = f.readlines()
+            g.writelines(lines)
+
+except OSError as e:
+    sys.exit(f"{e}")
+
+```
+
+<hr style="height: 3px; background-color: black; border: none;"><br>
+
+## **Types**
+- types associated with value of variable, not variable itself
+    - `type(a)`
+
+## **Python Sequences**
+- mutable: can be changed
+- immutable: cannot be changed
+- python does not have arrays
+- 3 seq types: 
+    - lists: mutable
+    - tuples: similar to lists but immutable
+    - ranges: immutable seq of nums
+
+```py
+>>> l = [1,2,3,4,5]
+>>> t = (1,2,3,4,5)
+>>> r = range(1, 6)
+>>> l[2]
+3
+>>> t[2]
+3
+>>> r[2]
+3
+>>> l[2] = 42
+>>> l
+[1, 2, 42, 4, 5]
+>>> t[2] = 42
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+```
+
+![Useful Python Sequence Op](images/usefulPySeqOp.png)
+![List Operators](images/listOp.png)
+
+## **Python Dicts**
+![Python Dict Operators](images/dictOp.png)
+
+### **Using a set**
+```py
+lines_seen = set()
+
+for line in sys.stdin:
+    if line in lines_seen:
+        print("Snap!")
+        break
+    lines_seen.add(line)
+```
+
