@@ -498,4 +498,184 @@ while True:
     sys.exit(0)
 ```
 
+<hr style="height: 3px; background-color: black; border: none;"><br>
 
+# [**1. Python Intro**](downloads/python_regex.pdf)
+
+## **re package**
+### **re.search**
+```py
+import re
+
+text = "I study COMP2041 at UNSW, COMP2041 introduces python"
+
+m = re.search('COMP2041', text)
+
+print(m)
+# <re.Match object; span=(8, 16), match='COMP2041'>
+# m.group()
+## 'COMP2041'
+# m.start()
+## 8
+# m.span()
+## (8, 16)
+```
+### **re.match**
+```py
+import re
+
+text = "I study COMP2041 at UNSW, COMP2041 introduces python"
+
+m = re.match('I', text)
+# same as re.search starting with ^
+```
+### **re.fullmatch**
+```py
+import re
+
+text = "COMP2041"
+
+m = re.match('COMP2041', text)
+```
+
+![PyCharClass](images/PyCharClass.png)
+
+### **Raw Strings**
+```py
+import re
+
+text = "hello\\nworld"
+# raw string: \ treated as literal backslash, no special meaning
+text2 = r"hello\nworld"
+# hello\nworld
+
+text3 = r"I study \"COMP2041\""
+# I study \"COMP2041\"
+
+text4 = r"I study COMP2041\"
+# unterminated string literal, escaped backquote
+
+m = re.match('COMP2041', text)
+```
+```py
+import re
+
+text = r"The email account for COMP2041|9044 is cscomp2041@cse.unsw.edu.au."
+
+# \S no whitespace
+m = re.search(r'\S+@\S+', text)
+# \. for just dot
+m = re.search(r'[\w.-]+@\w+(\.\w+)+', text)
+
+m = re.search(r'(\w+)\s+(\w+)', text)
+# m.groups()
+## ('haibo', 'zhang')
+# m.groups(1)
+## 'haibo'
+# m.groups(0)
+## 'haibo zhang'
+
+# non capturing group
+m = re.search(r'(?:\w+)\s+(\w+)\s+(\w+)', text)
+# m.groups()
+## ('haibo', 'zhang')
+```
+
+#### **Back referencing**
+```py
+import re
+
+text = r"The email account for COMP2041|9044 is cscomp2041@cse.unsw.edu.au."
+
+m = re.search(r'(\d+) (\1)', '42 42')
+# matches
+m = re.search(r'(\d+) (\1)', '42 43')
+# up to 99 back references
+```
+
+### **re.sub**
+```py
+import re
+
+text = r"Python \t programming      is fun"
+
+m = re.sub(r'\s+', ' ', text)
+```
+
+### **Greedy VS Non-Greedy Pattern Matching: re.findall**
+```py
+import re
+
+# ? changes to non-greedy
+# only matches the first place it can succeed
+# match small as possible
+re.sub(r'ab+?', 'X', s)
+
+text = "89++d3423kdslfj"
+
+m = re.findall(r'\d+', text)
+```
+
+### **re.split**
+```py
+import re
+
+text = "hello, world  COMP2041"
+
+m = re.split(r'[\s,]+', text)
+```
+
+### **Other examples**
+```py
+# Print the last number (real or integer) on every line
+# Note: regexp to match number: -?\d+\.?\d*
+# Note use of findall to find all numbers
+import re, sys
+for line in sys.stdin:
+    numbers = re.findall(r'(-?\d+\.?\d*)', line)
+    if numbers:
+        print(numbers[-1])
+```
+**count_enrollments using re**
+```py
+import re
+
+COURSE_CODES_FILE = "course_codes.tsv"
+ENROLLMENTS_FILE = "enrollments.txt"
+
+# course_codes.tsv contains tab separated UNSW course and names, e..g
+# ACCT1501  Accounting & Financial Mgt 1A
+course_names = {}
+with open(COURSE_CODES_FILE, encoding="utf-8") as f:
+    for line in f:
+        if m := re.match(r"(\S+)\s+(.*\S)", line):
+            course_names[m.group(1)] = m.group(2)
+enrollments_count = {}
+with open(ENROLLMENTS_FILE, encoding="utf-8") as f:
+    for line in f:
+        course_code = re.sub(r"\|.*\n", "", line)
+        if course_code not in enrollments_count:
+            enrollments_count[course_code] = 0
+        enrollments_count[course_code] += 1
+for (course_code, enrollment) in sorted (enrollments_count.items(), key=lambda item: item[1], reverse=True):
+    # if no name for course_code use ???
+    name = course_names.get(course_code, "???")
+    print(f"{enrollment:4} {course_code} {name}")
+```
+**Example-counting enrollments with split & counters**
+```py
+course_names = {}
+with open(COURSE_CODES_FILE, encoding="utf-8") as f:
+    for line in f:
+        course_code, course_name = line.strip().split("\t", maxsplit=1)
+        course_names[course_code] = course_name
+enrollments_count = collections.Counter()
+with open(ENROLLMENTS_FILE, encoding="utf-8") as f:
+    for line in f:
+        course_code = line.split("|")[0]
+        enrollments_count[course_code] += 1
+for (course_code, enrollment) in sorted(enrollments_count.items()):
+    # if no name for course_code use ???
+    name = course_names.get(course_code, "???")
+    print(f"{enrollment:4} {course_code} {name}")
+```
