@@ -500,7 +500,7 @@ while True:
 
 <hr style="height: 3px; background-color: black; border: none;"><br>
 
-# [**1. Python Intro**](downloads/python_regex.pdf)
+# [**1. Python Regex**](downloads/python_regex.pdf)
 
 ## **re package**
 ### **re.search**
