@@ -16,6 +16,7 @@ Functions can be called using:
 - positional args: `polly(5, 0.1, 0.2, 0.3)`
 - keyword args: `polly(x=2, a=5, b=-3, c=3)`
 - can use mix of positional or keyword args
+- positional args have to go before keyword
 
 ```py
 def polly(x, a, b, c):
@@ -164,6 +165,7 @@ help(square)
 ## **List Comprehensions**
 - expression for value in iterable
 - expression for value in iterable if expression
+
 ```py
 [x**3 for x in range(10)]
 # [0, 1, 8, 27, ...]
